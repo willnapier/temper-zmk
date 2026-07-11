@@ -85,6 +85,25 @@ jobs:
       - name: Rename right firmware (Linux)
         run: cp build/zephyr/zmk.uf2 temper_linux_right.uf2
 
+      # settings_reset — clears BLE bonds / ZMK settings (flash then re-flash real firmware)
+      - name: Build left settings_reset
+        run: >
+          west build --pristine -s zmk/app -b nice_nano_v2 --
+          -DSHIELD="temper_left settings_reset"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+
+      - name: Rename left settings_reset
+        run: cp build/zephyr/zmk.uf2 temper_settings_reset_left.uf2
+
+      - name: Build right settings_reset
+        run: >
+          west build --pristine -s zmk/app -b nice_nano_v2 --
+          -DSHIELD="temper_right settings_reset"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+
+      - name: Rename right settings_reset
+        run: cp build/zephyr/zmk.uf2 temper_settings_reset_right.uf2
+
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
@@ -94,3 +113,5 @@ jobs:
             temper_macos_right.uf2
             temper_linux_left.uf2
             temper_linux_right.uf2
+            temper_settings_reset_left.uf2
+            temper_settings_reset_right.uf2
