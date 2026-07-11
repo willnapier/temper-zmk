@@ -11,6 +11,7 @@ two outer pinky keys.
 |---|---|
 | Keyboard | Temper (choc, 3×5+3 per half) |
 | MCU | nice!nano v2 |
+| Display | **nice!view** (`nice_view_adapter` + `nice_view`) |
 | Central | **Left** half |
 
 ## Firmware artifacts (GitHub Actions)

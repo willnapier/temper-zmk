@@ -46,8 +46,8 @@ RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4)  RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2,9)
     // TODO: per-key RGB node(s)?
 };
 
-/* I2C OLED left disabled — no display fitted (avoids ssd1306 probe timeouts).
- * Re-enable &pro_micro_i2c + ssd1306 (and zephyr,display) if a panel is added. */
+/* Stock I2C SSD1306 path disabled — this build uses SPI nice!view via
+ * shields: temper_* nice_view_adapter nice_view (see CI -DSHIELD=...). */
 &pro_micro_i2c {
     status = "disabled";
 };
