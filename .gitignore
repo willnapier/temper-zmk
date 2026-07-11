@@ -1,0 +1,9 @@
+build/
+.west/
+modules/
+zephyr/
+zmk/
+bootloader/
+tools/
+*.uf2
+__pycache__/

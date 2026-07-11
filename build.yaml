@@ -1,0 +1,19 @@
+# GitHub Actions matrix helper (also documents local west builds)
+---
+include:
+  - board: nice_nano_v2
+    shield: temper_left
+    keymap: temper.keymap
+    artifact: temper_macos_left
+  - board: nice_nano_v2
+    shield: temper_right
+    keymap: temper.keymap
+    artifact: temper_macos_right
+  - board: nice_nano_v2
+    shield: temper_left
+    keymap: temper_linux.keymap
+    artifact: temper_linux_left
+  - board: nice_nano_v2
+    shield: temper_right
+    keymap: temper_linux.keymap
+    artifact: temper_linux_right

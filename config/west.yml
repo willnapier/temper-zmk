@@ -1,0 +1,12 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+  projects:
+    - name: zmk
+      remote: zmkfirmware
+      # Match Totem/Piantor pin: v0.3 (main broke seeeduino naming; nice_nano_v2 is fine on v0.3)
+      revision: v0.3
+      import: app/west.yml
+  self:
+    path: config
