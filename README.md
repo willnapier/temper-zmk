@@ -16,12 +16,29 @@ two outer pinky keys.
 
 ## Firmware artifacts (GitHub Actions)
 
+### Temper (nice!view)
+
 | File | Use |
 |---|---|
-| `temper_macos_left.uf2` / `_right.uf2` | Mac Totem-parity (Cmd) |
-| `temper_linux_left.uf2` / `_right.uf2` | Linux Totem-parity (Ctrl / Compose-style where needed) |
+| `temper_macos_left.uf2` / `_right.uf2` | Mac Totem-parity (Cmd) + nice!view |
+| `temper_linux_left.uf2` / `_right.uf2` | Linux Totem-parity |
+| `temper_settings_reset_*.uf2` | Clear BLE bonds |
 
-Download from the **Actions** run artifact `temper-firmware`.
+Artifact: **`temper-firmware`**
+
+### Chocofi (no display; same layout)
+
+Same keymap as Temper; BLE name **`Chocofi`** (distinct from Temper). Matrix matches Temper (36-key chocofi geometry).
+
+| File | Use |
+|---|---|
+| `chocofi_macos_left.uf2` / `_right.uf2` | Mac |
+| `chocofi_linux_left.uf2` / `_right.uf2` | Linux |
+| `chocofi_settings_reset_*.uf2` | Clear BLE bonds |
+
+Artifact: **`chocofi-firmware`**
+
+Flash order if the split misbehaves: **settings_reset both halves → real firmware both → power left then right**.
 
 ## Flash (USB)
 
