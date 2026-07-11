@@ -1,9 +1,12 @@
-build/
-.west/
-modules/
-zephyr/
-zmk/
-bootloader/
-tools/
+# West workspace (created by west init / update at repo root)
+/build/
+/.west/
+/modules/
+/tools/
+/zephyr/
+/zmk/
+/bootloader/
+
 *.uf2
 __pycache__/
+*.pyc
