@@ -236,11 +236,10 @@
     combos {
         compatible = "zmk,combos";
 
-        // L + U = : (colon) / ; (semicolon when shifted)
-        // Guards 40/200 — pause-chord like sticky S+T / N+E (synced Totem).
+        // L + U = : (colon) / ; (semicolon when shifted) — 50/100 baseline (synced Totem).
         combo_colon {
-            timeout-ms = <40>;
-            require-prior-idle-ms = <200>;
+            timeout-ms = <50>;
+            require-prior-idle-ms = <100>;
             key-positions = <6 7>;
             bindings = <&colon_semi>;
             layers = <BASE>;
