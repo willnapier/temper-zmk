@@ -237,7 +237,7 @@
         compatible = "zmk,combos";
 
         // L + U = : (colon) / ; (semicolon when shifted)
-        // Guards 40/200 — same policy as sticky S+T / N+E (synced Totem road-test 2026-07-13).
+        // Guards 40/200 — pause-chord like sticky S+T / N+E (synced Totem).
         combo_colon {
             timeout-ms = <40>;
             require-prior-idle-ms = <200>;
@@ -246,11 +246,10 @@
             layers = <BASE>;
         };
 
-        // U + Y = - (minus/hyphen) — Will's preferred right-hand home
-        // Same 40/200 as colon and sticky Shift.
+        // U + Y = - (minus/hyphen) — asymmetric 50/150 vs colon (mid-stream hyphens).
         combo_minus {
-            timeout-ms = <40>;
-            require-prior-idle-ms = <200>;
+            timeout-ms = <50>;
+            require-prior-idle-ms = <150>;
             key-positions = <7 8>;
             bindings = <&kp MINUS>;
             layers = <BASE>;
