@@ -28,7 +28,9 @@ Artifact: **`temper-firmware`**
 
 ### Chocofi (no display; same layout)
 
-Same keymap as Temper; BLE name **`Chocofi`** (distinct from Temper). Matrix matches Temper (36-key chocofi geometry).
+**Same keymap source as Temper** — GHA always passes
+`KEYMAP_FILE=config/temper.keymap` (Mac) or `temper_linux.keymap` (Linux).
+BLE name **`Chocofi`** (distinct from Temper). Matrix = 36-key chocofi geometry.
 
 | File | Use |
 |---|---|
@@ -38,29 +40,30 @@ Same keymap as Temper; BLE name **`Chocofi`** (distinct from Temper). Matrix mat
 
 Artifact: **`chocofi-firmware`**
 
+`boards/shields/chocofi/chocofi.keymap` is a **deprecated stub** (not used in CI).
+Do not edit it for layout work — edit `config/temper*.keymap` only.
+
 Flash order if the split misbehaves: **settings_reset both halves → real firmware both → power left then right**.
 
 ## Flash (USB)
 
-1. Double-tap reset → `NICENANO` volume.
-2. Copy the matching half UF2; wait for auto-eject.
+1. Double-tap reset → `NICENANO` volume (or whatever `ls /Volumes` shows).
+2. Copy the matching half UF2; `sync`; wait for auto-eject.
 3. **Left** = USB to computer (central). **Right** = USB power (or battery) for split link.
 
 ```bash
-cp ~/Downloads/temper-fw/temper_macos_left.uf2 /Volumes/NICENANO/; sync
-# then right half:
-cp ~/Downloads/temper-fw/temper_macos_right.uf2 /Volumes/NICENANO/; sync
+cp ~/Desktop/temper-fw-esc-yquote-2026-07-19/temper-firmware/temper_macos_left.uf2 /Volumes/NICENANO/; sync
+cp ~/Desktop/temper-fw-esc-yquote-2026-07-19/temper-firmware/temper_macos_right.uf2 /Volumes/NICENANO/; sync
 ```
 
-## Layout notes
+## Layout notes (2026-07-19 experiment, aligned with Totem)
 
-- Ported from Totem 38-key position map → Temper 36-key (outer pinkies removed).
-- Sticky-shift combos **S+T** / **N+E**, vertical brackets, NAV U-pivot browser
-  nav, `!` on `./`, `£` on `Y+'`, backspace autorepeat, mouse keys, etc. match
-  Totem intent.
-- Source of truth while iterating: keep behaviour aligned with
-  `~/codmiryoku/config/totem*.keymap`, then re-run `port_from_totem.py` or edit
-  `config/temper*.keymap` directly.
+- Outer thumbs: dual Shift (tap sticky / hold held); **no** paren morphs
+- Esc: **Q+W** and **Y+'** (bilateral); BASE £ combo removed → NUM+Shift+D
+- `:` / `;` = Shift+`.` / Shift+`,` (Urob); `-` = **N+H** vertical
+- Brackets vertical including `<>` on Q+A / '+O
+- MEDIA = hold **xcd**; FUN = sticky **h,.**
+- Source of truth: `config/temper*.keymap` ↔ `~/codmiryoku/config/totem*.keymap`
 
 ## Repo layout
 
