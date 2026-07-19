@@ -116,11 +116,20 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        // Colon / semicolon on same key
-        colon_semi: colon_semi_morph {
+        // Urob-style punct (parity with Totem 2026-07-19): Shift+, → ;  Shift+. → :
+        // (replaces letter-combo colon which false-fired on lu/ul).
+        comma_semi: comma_semi_morph {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp COLON>, <&kp SEMI>;   // Normal = : vs Shift = ;
+            bindings = <&kp COMMA>, <&kp SEMI>;   // ,  /  Shift → ;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        // Period: plain . / Shift → :  (no RAlt-hold; RAlt remains on X and I).
+        dot_colon: dot_colon_morph {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp DOT>, <&kp COLON>;    // .  /  Shift → :
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -231,20 +240,11 @@
     combos {
         compatible = "zmk,combos";
 
-        // L + U = : (colon) / ; (semicolon when shifted) — 50/100 baseline (synced Totem).
-        combo_colon {
-            timeout-ms = <50>;
-            require-prior-idle-ms = <100>;
-            key-positions = <6 7>;
-            bindings = <&colon_semi>;
-            layers = <BASE>;
-        };
-
-        // U + Y = - (minus/hyphen) — mid-stream: short idle + tight mash (40/50).
+        // Letter-combo :/; retired — use Shift+. / Shift+, (comma_semi / dot_colon).
+        // N + H = - (vertical home+bottom, Urob-style; was U+Y horizontal).
         combo_minus {
             timeout-ms = <40>;
-            require-prior-idle-ms = <50>;
-            key-positions = <7 8>;
+            key-positions = <16 26>;  // N + H (Temper 36)
             bindings = <&kp MINUS>;
             layers = <BASE>;
         };
@@ -309,8 +309,20 @@
             bindings = <&kp RBRC>;
             layers = <BASE>;
         };
+        combo_langle {   // < = Q + A  (left pinky column)
+            timeout-ms = <40>;
+            key-positions = <0 10>;
+            bindings = <&kp LESS_THAN>;
+            layers = <BASE>;
+        };
+        combo_rangle {   // > = ' + O  (right pinky column)
+            timeout-ms = <40>;
+            key-positions = <9 19>;
+            bindings = <&kp GREATER_THAN>;
+            layers = <BASE>;
+        };
 
-        // --- Browser-nav combos on the NAV layer (base freed; hyphen reclaims U+Y).
+        // --- Browser-nav combos on the NAV layer (U+Y free on BASE; still history fwd).
         //     Both on the RIGHT hand around the U pivot so reversing tab direction is a
         //     finger-shift, not a hand-swap: L+U = back/left, U+Y = forward/right.
         //     tap = history, shift = tab (NAV-layer T is LSHFT — hold it for tabs).
@@ -401,27 +413,8 @@
             layers = <BASE>;
         };
 
-        // One-shot capital combos (experimental, 2026-06-30): tap both keys to
-        // arm a sticky Shift for the next letter only. Emits Shift alone (no
-        // Cmd), so there is no clash with Cmd+Shift app shortcuts. The idle +
-        // tight-timeout guard stops them firing during normal typing rolls
-        // (e.g. "st"/"ne"); capitals fall after a space (a pause), which is
-        // exactly when the combo is permitted to fire. Temper 36-key positions.
-        combo_shift_left {
-            timeout-ms = <40>;
-            require-prior-idle-ms = <200>;
-            key-positions = <12 13>;  // S + T  ->  sticky LSHIFT
-            bindings = <&sk LSHFT>;
-            layers = <BASE>;
-        };
-
-        combo_shift_right {
-            timeout-ms = <40>;
-            require-prior-idle-ms = <200>;
-            key-positions = <16 17>;  // N + E  ->  sticky RSHIFT
-            bindings = <&sk RSHFT>;
-            layers = <BASE>;
-        };
+        // S+T / N+E one-shot sticky Shift removed (parity Totem 2026-07-18).
+        // Capitals: outer thumb dual-Shift, hold-T/N HRM, or NAV caps_word.
 
     };
 };
@@ -448,7 +441,7 @@
             bindings = <
                 &kp Q           &kp W           &kp F           &kp P           &kp B           &kp J           &kp L           &kp U           &kp Y           &kp SQT
                 &hml LCTRL A    &hml LALT R     &hml LGUI S     &hml_shift LSHFT T     &kp G    &kp M           &hmr_shift RSHFT N     &hmr_cmd RGUI E  &mt RALT I      &mt RCTRL O
-                &z_no_ctrl      &mt RALT X      &kp C           &kp D           &kp V           &kp K           &kp H           &kp COMMA       &mt RALT DOT    &slash_morph
+                &z_no_ctrl      &mt RALT X      &kp C           &kp D           &kp V           &kp K           &kp H           &comma_semi     &dot_colon      &slash_morph
                                                 &thumb_shift LSHFT LSHFT    &lt NAV SPACE   &lt MOUSE TAB   &lt SYM RET     &lt_repeat NUM BSPC    &thumb_shift LSHFT LSHFT
             >;
         };
