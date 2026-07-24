@@ -60,7 +60,7 @@ cp ~/Desktop/temper-fw-esc-yquote-2026-07-19/temper-firmware/temper_macos_right.
 
 - Outer thumbs: dual Shift (tap sticky / hold held); **no** paren morphs
 - Esc: **Q+W** and **Y+'** (bilateral); BASE £ combo removed → NUM+Shift+D
-- `:` / `;` = Shift+`.` / Shift+`,` (Urob); `-` = **N+H** vertical
+- `:` = **J+L**, `;` = **B+P** (horizontal trial 2026-07-24); backup Shift+`.` / Shift+`,` (Urob); `-` = **N+H** vertical
 - Brackets vertical including `<>` on Q+A / '+O
 - MEDIA = hold **xcd**; FUN = sticky **h,.**
 - Source of truth: `config/temper*.keymap` ↔ `~/codmiryoku/config/totem*.keymap`

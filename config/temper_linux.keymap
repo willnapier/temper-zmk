@@ -254,27 +254,28 @@
     combos {
         compatible = "zmk,combos";
 
-        // Letter-combo :/; retired — use Shift+. / Shift+, (comma_semi / dot_colon).
+        // Horizontal letter combos (2026-07-24 trial): J+L → : , B+P → ; .
+        // Replaces vertical E+, / I+. (felt slow). Avoids retired L+U (lu/ul digraphs).
+        // JL/LJ rare; BP same-finger index columns — both safer than L+U.
+        // Shift+. / Shift+, morphs kept as backup. Hyphen stays vertical N+H.
+        combo_colon {
+            timeout-ms = <40>;
+            key-positions = <5 6>;  // J + L
+            bindings = <&kp COLON>;
+            layers = <BASE>;
+        };
+        combo_semicolon {
+            timeout-ms = <40>;
+            key-positions = <3 4>;  // P + B
+            bindings = <&kp SEMI>;
+            layers = <BASE>;
+        };
+
         // N + H = - (vertical home+bottom, Urob-style; was U+Y horizontal).
         combo_minus {
             timeout-ms = <40>;
             key-positions = <16 26>;  // N + H (Temper 36)
             bindings = <&kp MINUS>;
-            layers = <BASE>;
-        };
-
-        // Vertical ; / : (2026-07-20) — home+bottom, same-finger; no Shift needed.
-        // Complements Urob Shift+,/. morphs (kept as backup). Temper 36 positions.
-        combo_semicolon {
-            timeout-ms = <40>;
-            key-positions = <17 27>;  // E + ,
-            bindings = <&kp SEMI>;
-            layers = <BASE>;
-        };
-        combo_colon {
-            timeout-ms = <40>;
-            key-positions = <18 28>;  // I + .
-            bindings = <&kp COLON>;
             layers = <BASE>;
         };
 
