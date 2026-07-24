@@ -1,4 +1,4 @@
-name: Build Temper / Chocofi ZMK firmware
+name: Build Temper ZMK firmware
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
-    name: Build keyboard firmware
+    name: Build Temper firmware
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -43,52 +43,28 @@ jobs:
       - name: West Zephyr export
         run: west zephyr-export
 
-      # macOS / Cmd variants + nice!view (SPI adapter + display)
-      # EXTRA_CONF_FILE → BLE name "Temper Mac" / "Temper Linux"
-      - name: Build left half (macOS)
+      # Temper is Mac-only for now (Totem-parity Cmd keymap + nice!view).
+      # Linux keymap file kept in-tree for a later swap; not built.
+      # Chocofi builds removed (deprecated 2026-07-24).
+      - name: Build left half
         run: >
           west build --pristine -s zmk/app -b nice_nano_v2 --
           -DSHIELD="temper_left nice_view_adapter nice_view"
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/temper_macos.conf"
 
-      - name: Rename left firmware (macOS)
-        run: cp build/zephyr/zmk.uf2 temper_macos_left.uf2
+      - name: Rename left firmware
+        run: cp build/zephyr/zmk.uf2 temper_left.uf2
 
-      - name: Build right half (macOS)
+      - name: Build right half
         run: >
           west build --pristine -s zmk/app -b nice_nano_v2 --
           -DSHIELD="temper_right nice_view_adapter nice_view"
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/temper_macos.conf"
 
-      - name: Rename right firmware (macOS)
-        run: cp build/zephyr/zmk.uf2 temper_macos_right.uf2
-
-      # Linux / Ctrl variants + nice!view
-      - name: Build left half (Linux)
-        run: >
-          west build --pristine -s zmk/app -b nice_nano_v2 --
-          -DSHIELD="temper_left nice_view_adapter nice_view"
-          -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper_linux.keymap"
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/temper_linux.conf"
-
-      - name: Rename left firmware (Linux)
-        run: cp build/zephyr/zmk.uf2 temper_linux_left.uf2
-
-      - name: Build right half (Linux)
-        run: >
-          west build --pristine -s zmk/app -b nice_nano_v2 --
-          -DSHIELD="temper_right nice_view_adapter nice_view"
-          -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper_linux.keymap"
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/temper_linux.conf"
-
-      - name: Rename right firmware (Linux)
-        run: cp build/zephyr/zmk.uf2 temper_linux_right.uf2
+      - name: Rename right firmware
+        run: cp build/zephyr/zmk.uf2 temper_right.uf2
 
       # settings_reset — clears BLE bonds / ZMK settings (flash then re-flash real firmware)
       - name: Build left settings_reset
@@ -109,89 +85,12 @@ jobs:
       - name: Rename right settings_reset
         run: cp build/zephyr/zmk.uf2 temper_settings_reset_right.uf2
 
-      # ---- Chocofi (same keymaps, no nice!view; distinct BLE names) ----
-      - name: Build Chocofi left half (macOS)
-        run: >
-          west build --pristine -s zmk/app -b nice_nano_v2 --
-          -DSHIELD=chocofi_left
-          -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper.keymap"
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/chocofi_macos.conf"
-
-      - name: Rename Chocofi left (macOS)
-        run: cp build/zephyr/zmk.uf2 chocofi_macos_left.uf2
-
-      - name: Build Chocofi right half (macOS)
-        run: >
-          west build --pristine -s zmk/app -b nice_nano_v2 --
-          -DSHIELD=chocofi_right
-          -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper.keymap"
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/chocofi_macos.conf"
-
-      - name: Rename Chocofi right (macOS)
-        run: cp build/zephyr/zmk.uf2 chocofi_macos_right.uf2
-
-      - name: Build Chocofi left half (Linux)
-        run: >
-          west build --pristine -s zmk/app -b nice_nano_v2 --
-          -DSHIELD=chocofi_left
-          -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper_linux.keymap"
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/chocofi_linux.conf"
-
-      - name: Rename Chocofi left (Linux)
-        run: cp build/zephyr/zmk.uf2 chocofi_linux_left.uf2
-
-      - name: Build Chocofi right half (Linux)
-        run: >
-          west build --pristine -s zmk/app -b nice_nano_v2 --
-          -DSHIELD=chocofi_right
-          -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper_linux.keymap"
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/chocofi_linux.conf"
-
-      - name: Rename Chocofi right (Linux)
-        run: cp build/zephyr/zmk.uf2 chocofi_linux_right.uf2
-
-      - name: Build Chocofi left settings_reset
-        run: >
-          west build --pristine -s zmk/app -b nice_nano_v2 --
-          -DSHIELD="chocofi_left settings_reset"
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-
-      - name: Rename Chocofi left settings_reset
-        run: cp build/zephyr/zmk.uf2 chocofi_settings_reset_left.uf2
-
-      - name: Build Chocofi right settings_reset
-        run: >
-          west build --pristine -s zmk/app -b nice_nano_v2 --
-          -DSHIELD="chocofi_right settings_reset"
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-
-      - name: Rename Chocofi right settings_reset
-        run: cp build/zephyr/zmk.uf2 chocofi_settings_reset_right.uf2
-
       - name: Upload Temper firmware
         uses: actions/upload-artifact@v4
         with:
           name: temper-firmware
           path: |
-            temper_macos_left.uf2
-            temper_macos_right.uf2
-            temper_linux_left.uf2
-            temper_linux_right.uf2
+            temper_left.uf2
+            temper_right.uf2
             temper_settings_reset_left.uf2
             temper_settings_reset_right.uf2
-
-      - name: Upload Chocofi firmware
-        uses: actions/upload-artifact@v4
-        with:
-          name: chocofi-firmware
-          path: |
-            chocofi_macos_left.uf2
-            chocofi_macos_right.uf2
-            chocofi_linux_left.uf2
-            chocofi_linux_right.uf2
-            chocofi_settings_reset_left.uf2
-            chocofi_settings_reset_right.uf2
