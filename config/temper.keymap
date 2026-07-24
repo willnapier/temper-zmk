@@ -240,27 +240,47 @@
     combos {
         compatible = "zmk,combos";
 
-        // Horizontal letter combos (2026-07-24 trial): J+L → : , B+P → ; .
-        // Replaces vertical E+, / I+. (felt slow). Avoids retired L+U (lu/ul digraphs).
-        // JL/LJ rare; BP same-finger index columns — both safer than L+U.
-        // Shift+. / Shift+, morphs kept as backup. Hyphen stays vertical N+H.
+        // Punct dual paths (2026-07-24 trial): keep verticals AND horizontals so both
+        // can be compared in real typing. Shift+. / Shift+, morphs remain as backup.
+        // Colon:  horizontal J+L  |  vertical I+.
+        // Semi:   horizontal P+B  |  vertical E+,
+        // Hyphen: vertical N+H    |  horizontal M+N  (mn digraph risk accepted for trial)
+        // Positions are Temper-36 (bottom row has no outer pinkies).
         combo_colon {
             timeout-ms = <40>;
-            key-positions = <5 6>;  // J + L
+            key-positions = <5 6>;  // J + L (horizontal)
+            bindings = <&kp COLON>;
+            layers = <BASE>;
+        };
+        combo_colon_vert {
+            timeout-ms = <40>;
+            key-positions = <18 28>;  // I + . (vertical)
             bindings = <&kp COLON>;
             layers = <BASE>;
         };
         combo_semicolon {
             timeout-ms = <40>;
-            key-positions = <3 4>;  // P + B
+            key-positions = <3 4>;  // P + B (horizontal)
+            bindings = <&kp SEMI>;
+            layers = <BASE>;
+        };
+        combo_semicolon_vert {
+            timeout-ms = <40>;
+            key-positions = <17 27>;  // E + , (vertical)
             bindings = <&kp SEMI>;
             layers = <BASE>;
         };
 
-        // N + H = - (vertical home+bottom, Urob-style; was U+Y horizontal).
+        // Hyphen dual path: N+H vertical + M+N horizontal trial.
         combo_minus {
             timeout-ms = <40>;
-            key-positions = <16 26>;  // N + H (Temper 36)
+            key-positions = <16 26>;  // N + H (vertical, Temper 36)
+            bindings = <&kp MINUS>;
+            layers = <BASE>;
+        };
+        combo_minus_horiz {
+            timeout-ms = <40>;
+            key-positions = <15 16>;  // M + N (horizontal)
             bindings = <&kp MINUS>;
             layers = <BASE>;
         };
