@@ -30,7 +30,8 @@ Artifact: **`temper-firmware`**
 
 **Same keymap source as Temper** — GHA always passes
 `KEYMAP_FILE=config/temper.keymap` (Mac) or `temper_linux.keymap` (Linux).
-BLE name **`Chocofi`** (distinct from Temper). Matrix = 36-key chocofi geometry.
+BLE names (2026-07-24): **Temper Mac** / **Temper Linux**, **Chocofi Mac** / **Chocofi Linux**
+(via `EXTRA_CONF_FILE` in CI). Matrix = 36-key chocofi geometry.
 
 | File | Use |
 |---|---|

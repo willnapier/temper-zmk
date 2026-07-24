@@ -44,12 +44,14 @@ jobs:
         run: west zephyr-export
 
       # macOS / Cmd variants + nice!view (SPI adapter + display)
+      # EXTRA_CONF_FILE → BLE name "Temper Mac" / "Temper Linux"
       - name: Build left half (macOS)
         run: >
           west build --pristine -s zmk/app -b nice_nano_v2 --
           -DSHIELD="temper_left nice_view_adapter nice_view"
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/temper_macos.conf"
 
       - name: Rename left firmware (macOS)
         run: cp build/zephyr/zmk.uf2 temper_macos_left.uf2
@@ -60,6 +62,7 @@ jobs:
           -DSHIELD="temper_right nice_view_adapter nice_view"
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/temper_macos.conf"
 
       - name: Rename right firmware (macOS)
         run: cp build/zephyr/zmk.uf2 temper_macos_right.uf2
@@ -71,6 +74,7 @@ jobs:
           -DSHIELD="temper_left nice_view_adapter nice_view"
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper_linux.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/temper_linux.conf"
 
       - name: Rename left firmware (Linux)
         run: cp build/zephyr/zmk.uf2 temper_linux_left.uf2
@@ -81,6 +85,7 @@ jobs:
           -DSHIELD="temper_right nice_view_adapter nice_view"
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper_linux.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/temper_linux.conf"
 
       - name: Rename right firmware (Linux)
         run: cp build/zephyr/zmk.uf2 temper_linux_right.uf2
@@ -104,13 +109,14 @@ jobs:
       - name: Rename right settings_reset
         run: cp build/zephyr/zmk.uf2 temper_settings_reset_right.uf2
 
-      # ---- Chocofi (same keymaps, no nice!view; distinct BLE name) ----
+      # ---- Chocofi (same keymaps, no nice!view; distinct BLE names) ----
       - name: Build Chocofi left half (macOS)
         run: >
           west build --pristine -s zmk/app -b nice_nano_v2 --
           -DSHIELD=chocofi_left
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/chocofi_macos.conf"
 
       - name: Rename Chocofi left (macOS)
         run: cp build/zephyr/zmk.uf2 chocofi_macos_left.uf2
@@ -121,6 +127,7 @@ jobs:
           -DSHIELD=chocofi_right
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/chocofi_macos.conf"
 
       - name: Rename Chocofi right (macOS)
         run: cp build/zephyr/zmk.uf2 chocofi_macos_right.uf2
@@ -131,6 +138,7 @@ jobs:
           -DSHIELD=chocofi_left
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper_linux.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/chocofi_linux.conf"
 
       - name: Rename Chocofi left (Linux)
         run: cp build/zephyr/zmk.uf2 chocofi_linux_left.uf2
@@ -141,6 +149,7 @@ jobs:
           -DSHIELD=chocofi_right
           -DKEYMAP_FILE="${GITHUB_WORKSPACE}/config/temper_linux.keymap"
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DEXTRA_CONF_FILE="${GITHUB_WORKSPACE}/config/chocofi_linux.conf"
 
       - name: Rename Chocofi right (Linux)
         run: cp build/zephyr/zmk.uf2 chocofi_linux_right.uf2
